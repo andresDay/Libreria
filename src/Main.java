@@ -15,6 +15,7 @@ public class Main {
         out.println();
     }
 
+
     public static String leer_cadena(String mensaje) {
         out.print(mensaje + ": ");
         return teclado.nextLine();
@@ -33,7 +34,7 @@ public class Main {
 
     // agregada 1
     // valida si es Linux para configurar el printstream y el scanner
-    public static void validarSystemProperties() {
+     public static void validarSystemProperties() {
 
         if (!System.getProperties().get("os.name").equals("Linux") && System.console() != null)
             try {
