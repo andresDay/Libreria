@@ -9,20 +9,20 @@ public class Main {
     public static Scanner teclado = new Scanner(System.in);
     public static PrintStream out = System.out;
 
-    //ya venía hecha por la cátedra
+    // ya venía hecha por la cátedra
     public static void pausar(String mensage) {
         out.print(mensage + "\nPresione <ENTER> para continuar . . . ");
         teclado.nextLine();
         out.println();
     }
 
-    //ya venía hecha por la cátedra
+    // ya venía hecha por la cátedra
     public static String leer_cadena(String mensaje) {
         out.print(mensaje + ": ");
         return teclado.nextLine();
     }
 
-    //ya venía hecha por la cátedra
+    // ya venía hecha por la cátedra
     public static int leer_entero(String mensaje) {
         try {
             return Integer.parseInt(leer_cadena(mensaje));
@@ -32,12 +32,12 @@ public class Main {
         }
     }
 
-    //ya venía hecha por la cátedra
+    // ya venía hecha por la cátedra
     public static String ruta = "libros.tsv";
 
     // agregada 1
     // valida si es Linux para configurar el printstream y el scanner
-     public static void validarSystemProperties() {
+    public static void validarSystemProperties() {
 
         if (!System.getProperties().get("os.name").equals("Linux") && System.console() != null)
             try {
@@ -116,7 +116,7 @@ public class Main {
     }
 
     // agregada 5
-    //retorna una opcion ya validada
+    // retorna una opcion ya validada
     public static int getOpcionValida() {
         int opcion;
 
@@ -129,7 +129,7 @@ public class Main {
     }
 
     // agregada 6
-    //indica si hay registros
+    // indica si hay registros
     public static boolean hayRegistros(Vector<Libro> vector, int opcion) {
         if (vector.isEmpty() && opcion != 1 && opcion != 7) {
             pausar("No hay registros.\n");
@@ -139,7 +139,7 @@ public class Main {
     }
 
     // agregada 7
-    //procesa la opcion elegida para llegar al switch
+    // procesa la opcion elegida para llegar al switch
     public static void procesarOpcion(int opcion, Vector<Libro> vector) {
 
         Funcion<Libro> imprimir = new Funcion<Libro>() {
@@ -154,7 +154,6 @@ public class Main {
         int i, n;
         Libro dato = null, libro;
         int[] contador = { 0 };
-        //int subopcion;
         libro = new Libro();
 
         // cargar isbn
@@ -176,20 +175,19 @@ public class Main {
                     vector.add(libro);
                     break;
                 case 3: // ACTUALIZAR
-                    i = vector.indexOf(libro);                    
+                    i = vector.indexOf(libro);
                     dato = actualizarLibro(vector.get(i));
                     vector.set(vector.indexOf(libro), dato);
-                                        
                     break;
-                case 4: //BAJA
+                case 4: // BAJA
                     vector.remove(dato);
                     out.println("Registro borrado correctamente.");
                     break;
-                case 5: //ORDENAR
+                case 5: // ORDENAR
                     Collections.sort(vector);
                     out.println("Registros ordenados correctamente.");
                     break;
-                case 6: 
+                case 6:
                     n = vector.size();
                     contador[0] = 0;
                     for (i = 0; i < n; i++)
@@ -200,12 +198,14 @@ public class Main {
             }
         }
 
-        if (opcion < 7 && opcion >= 1)
+        // para bajar la cc
+        if (opcionEnRango_1a6)
             pausar("");
+
     }
 
     // agregada 8
-    //valida la opcion
+    // valida la opcion
     public static boolean esOpcionValida(int opcion, Libro dato) {
         // si es dar de ALTA y ya existe isbn
         if (opcion == 1 && dato != null) {
@@ -222,8 +222,8 @@ public class Main {
     }
 
     // agregada 9
-    //hace lo que indica la funcion. Opcion 1 del menú
-    public static Libro darDeAltaLibro (String ISBN) {
+    // hace lo que indica la funcion. Opcion 1 del menú
+    public static Libro darDeAltaLibro(String ISBN) {
 
         Libro libro = new Libro();
         libro.setISBN(ISBN);
@@ -239,9 +239,9 @@ public class Main {
     }
 
     // agregada 10
-    //opcion 3 del menú
+    // opcion 3 del menú
     public static Libro actualizarLibro(Libro libro) {
-        
+
         Libro dato = libro;
         int subopcion;
 
@@ -275,10 +275,17 @@ public class Main {
         }
         out.println("\nRegistro actualizado correctamente.");
         return dato;
-
     }
 
-    //venía dada y fue modificada
+    // agregada 11
+    // solo para bajar complejidad ciclomatica de
+    public static Boolean opcionEnRango_1a6(int opcion) {
+        if (opcion < 7 && opcion >= 1)
+            return true;
+        return false;
+    }
+
+    // ya venía dada por la cátedra
     public static void main(String[] args) {
 
         validarSystemProperties();
@@ -306,12 +313,12 @@ public class Main {
 
 }
 
-//ya venía dada por la cátedra
+// ya venía dada por la cátedra
 interface Funcion<T extends Comparable<T>> {
     void funcion(T dato, Object parametros);
 }
 
-//ya venía dada por la cátedra
+// ya venía dada por la cátedra
 class Libro implements Comparable<Libro> {
 
     private String ISBN;
@@ -387,6 +394,6 @@ class Libro implements Comparable<Libro> {
 
     public void setAnno_de_publicacion(int anno_de_publicacion) {
         this.anno_de_publicacion = anno_de_publicacion;
-    }   
+    }
 
 }
